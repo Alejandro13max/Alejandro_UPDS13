@@ -1,184 +1,250 @@
 :root {
-    --bg-light: #f8f9fc;
-    --bg-dark-strip: #0b0c10;
-    --bg-dark-section: #15161e;
-    --gengar-purple: #8e24aa; 
-    --gengar-light: #d580ff; 
-    --text-muted: #6c757d;
+    --bg-dark: #0f1016;
+    --bg-card: #1a1b23;
+    --gengar-purple: #9d4edd;
+    --gengar-glow: rgba(157, 77, 221, 0.3);
+    --text-main: #ffffff;
+    --text-muted: #8b8d98;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: var(--bg-light);
-    font-family: 'Poppins', sans-serif;
-    overflow-x: hidden;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ==========================================
+   CONTENEDOR PRINCIPAL (MÓVIL POR DEFECTO)
+   ========================================== */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%; /* En móvil ocupa todo el ancho */
+    background: var(--bg-dark);
+    position: relative;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================
+   MODO PC / ESCRITORIO (Simula un Smartphone)
+   ========================================== */
+@media (min-width: 1025px) {
+    body {
+        /* Fondo exterior para resaltar el marco */
+        background: radial-gradient(circle at center, #1a1b23 0%, #050508 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .app-container {
+        /* Marco de smartphone centrado */
+        max-width: 430px; /* Ancho típico de móvil */
+        height: 85vh;     /* No llega al 100% para que se vea el marco */
+        max-height: 850px;
+        border-radius: 40px; /* Bordes redondeados tipo teléfono */
+        border: 8px solid #2a2b35; /* Bisel del teléfono */
+        box-shadow: 
+            0 0 0 2px #000, 
+            0 20px 50px rgba(0,0,0,0.8), 
+            0 0 100px var(--gengar-glow);
+        overflow: hidden; /* Para que nada se salga del marco */
+    }
+
+    /* Ocultar scrollbar en el marco */
+    .app-container::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Header */
+.app-header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.logo {
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+/* Botón de Hidratación */
+#btnHidratar {
+    transition: all 0.3s ease;
+}
+
+#btnHidratar.hidratado {
+    background-color: var(--gengar-purple);
+    border-color: var(--gengar-purple);
+    color: white;
+    box-shadow: 0 0 15px var(--gengar-glow);
+}
+
+#btnHidratar.hidratado i {
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* Contenido Principal */
+.app-content {
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-pane {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+}
+
+.tab-pane.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Tipografía y Utilidades */
-.text-gengar { color: var(--gengar-light) !important; }
-.tracking-wide { letter-spacing: 2px; }
-.text-light-muted { color: #9e9e9e; font-size: 0.95rem; line-height: 1.6;}
+.text-gengar { color: var(--gengar-purple) !important; }
+.section-title { font-weight: 800; letter-spacing: -1px; }
 
-/* Botones */
-.btn-gengar {
-    background-color: var(--gengar-purple);
-    color: white;
-    border-radius: 50px;
-    transition: 0.3s;
-    border: none;
+/* Avatar Minimalista */
+.avatar-minimal {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bg-card), var(--gengar-purple));
+    padding: 4px;
+    box-shadow: 0 0 30px var(--gengar-glow);
 }
-.btn-gengar:hover {
-    background-color: var(--gengar-light);
-    color: white;
-    box-shadow: 0 5px 15px rgba(142, 36, 170, 0.4);
-}
-
-/* Sección Hero */
-.hero-section {
-    padding-top: 80px;
-    background: linear-gradient(135deg, #f8f9fc 0%, #e9e4f0 100%);
-}
-.hero-img {
-    height: 500px;
-    object-fit: cover;
-}
-.hero-image-container {
-    position: relative;
-    z-index: 1;
-}
-.hero-image-container::before {
-    content: '';
-    position: absolute;
-    top: -15px; right: -15px; bottom: 15px; left: 15px;
-    border: 2px solid var(--gengar-purple);
-    border-radius: 1rem;
-    z-index: -1;
-}
-
-/* Redes Sociales Hero */
-.social-circle {
-    display: flex; justify-content: center; align-items: center;
-    width: 40px; height: 40px;
-    background: white; border-radius: 50%;
-    color: var(--bg-dark-strip); text-decoration: none;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: 0.3s;
-}
-.social-circle:hover {
-    background: var(--gengar-purple); color: white;
-}
-
-/* Franja Oscura de Pestañas */
-.dark-nav-strip {
-    background-color: var(--bg-dark-strip);
-    border-top: 1px solid rgba(142, 36, 170, 0.3);
-    border-bottom: 1px solid rgba(142, 36, 170, 0.3);
-    z-index: 1000;
-}
-.strip-link {
-    color: #e0e0e0; text-decoration: none;
-    font-weight: 600; font-size: 1.1rem;
-    transition: 0.3s;
-    display: flex; align-items: center; gap: 8px;
-}
-.strip-link:hover { color: white; transform: translateY(-2px);}
-
-/* Sección Oscura y Tarjetas (ESTILO PORTO) */
-.dark-section {
-    background-color: var(--bg-dark-section);
-    background-image: radial-gradient(circle at 50% 0%, rgba(142,36,170,0.15) 0%, transparent 60%);
-}
-
-.porto-card {
-    background: #1e2029; /* Color de las tarjetas de la plantilla */
-    border-radius: 10px;
-    padding: 30px;
+.avatar-minimal img {
+    width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 1px solid rgba(255,255,255,0.02);
-    transition: 0.3s;
-}
-.porto-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    border-color: rgba(142, 36, 170, 0.3);
+    object-fit: cover;
+    border-radius: 50%;
+    background: #000;
 }
 
-.porto-card-footer {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    color: white;
-    font-size: 1.2rem;
-    font-weight: 600;
+/* Botones Sociales */
+.social-btn {
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--bg-card);
+    color: white;
+    text-decoration: none;
+    transition: 0.2s;
+    border: 1px solid rgba(255,255,255,0.05);
 }
-.porto-card-footer i {
-    color: var(--gengar-purple);
-    background: rgba(142, 36, 170, 0.2);
-    padding: 10px;
-    border-radius: 50%;
-    font-size: 1.1rem;
-}
-
-/* Horario */
-.timeline-dark {
-    border-left: 2px solid var(--gengar-purple);
-    padding-left: 20px;
-    margin-left: 10px;
-}
-.timeline-item-dark {
-    position: relative;
-    margin-bottom: 25px;
-}
-.timeline-item-dark::before {
-    content: '';
-    position: absolute;
-    left: -27px; top: 5px;
-    width: 12px; height: 12px;
+.social-btn:hover {
     background: var(--gengar-purple);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--gengar-purple);
+    transform: translateY(-2px);
 }
 
-/* Formulario Claro */
-.light-section {
-    background: linear-gradient(135deg, #e9e4f0 0%, #f8f9fc 100%);
+/* Tarjetas Minimalistas */
+.minimal-card {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.2s;
 }
-.custom-input-light {
-    background-color: #f8f9fc;
-    border: 1px solid #ddd;
-    padding: 12px 15px;
-    border-radius: 8px;
-}
-.custom-input-light:focus {
+.minimal-card:hover {
     border-color: var(--gengar-purple);
-    box-shadow: 0 0 0 0.25rem rgba(142, 36, 170, 0.2);
+    background: #1f202b;
 }
-.error-msg { display: none; font-size: 0.8rem; }
+
+/* Inputs Minimalistas */
+.minimal-input {
+    background-color: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    border-radius: 12px;
+    padding: 12px;
+}
+.minimal-input:focus {
+    background-color: var(--bg-card);
+    color: white;
+    border-color: var(--gengar-purple);
+    box-shadow: 0 0 0 3px var(--gengar-glow);
+}
+.minimal-input::placeholder { color: var(--text-muted); }
+
+/* Inputs Deshabilitados (Antes de Hidratar) */
+.minimal-input:disabled,
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-gengar {
+    background: var(--gengar-purple);
+    border: none;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.btn-gengar:hover { background: #b366ff; }
+
+/* Nav Inferior */
+.app-nav {
+    height: 70px;
+    background: rgba(26, 27, 35, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-shrink: 0;
+    padding-bottom: 5px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    gap: 4px;
+    transition: 0.2s;
+    width: 60px;
+}
+.nav-item i { font-size: 1.2rem; }
+.nav-item.active { color: var(--gengar-purple); }
+.nav-item:hover { color: white; }
+
+/* Errores */
+.error-msg { display: none; font-size: 0.75rem; margin-top: 5px; }
 .input-error { border-color: #dc3545 !important; }
 
-/* Footer */
-.social-circle-dark {
-    display: flex; justify-content: center; align-items: center;
-    width: 45px; height: 45px;
-    background: rgba(255,255,255,0.05); border-radius: 50%;
-    color: white; text-decoration: none;
-    transition: 0.3s;
-}
-.social-circle-dark:hover {
-    background: var(--gengar-purple); color: white;
-}
-
-/* Botones de Filtro */
-.filter-btn {
-    border-color: rgba(255,255,255,0.2);
-}
-.filter-btn.active {
-    background-color: var(--gengar-purple) !important;
-    border-color: var(--gengar-purple) !important;
-    color: white !important;
-}
+/* Scrollbar Personalizada (Oculta) */
+::-webkit-scrollbar { width: 0px; background: transparent; }
