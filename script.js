@@ -1,33 +1,43 @@
-// ==========================================
-// VARIABLES GLOBALES
-// ==========================================
-let hidratado = false;
+// ==============================================================================
+// PORTAFOLIO MINIMALISTA - JAVASCRIPT PRINCIPAL
+// Interacciones habilitadas por defecto con Delegación de Eventos (Event Bubbling)
+// ==============================================================================
 
-// ==========================================
-// 1. FUNCIÓN DE HIDRATACIÓN PRINCIPAL
-// ==========================================
-function hidratarPagina() {
-    if (hidratado) {
-        console.log("La página ya está hidratada.");
-        return;
+$(document).ready(function() {
+
+    // ==========================================
+    // 1. NAVEGACIÓN ENTRE PESTAÑAS (DELEGACIÓN DE EVENTOS)
+    // ==========================================
+    const appNav = document.querySelector('.app-nav');
+    if (appNav) {
+        appNav.addEventListener('click', (e) => {
+            const navItem = e.target.closest('.nav-item');
+            if (navItem) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+
+                navItem.classList.add('active');
+                const targetId = navItem.dataset.target;
+                const targetTab = document.getElementById(targetId);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
+            }
+        });
     }
 
-    console.log("Iniciando hidratación...");
-
-    const btnHidratar = document.getElementById('btnHidratar');
-    btnHidratar.innerHTML = '<i class="fas fa-check-circle me-2"></i> Página Hidratada';
-    btnHidratar.classList.remove('btn-outline-light');
-    btnHidratar.classList.add('btn-gengar', 'hidratado');
-    btnHidratar.disabled = true;
-
-    // Habilitar todos los inputs y botones
-    document.querySelectorAll('input, select, textarea, button').forEach(el => {
-        if (el.id !== 'btnHidratar') {
-            el.disabled = false;
-        }
+    // ==========================================
+    // 2. SELECCIÓN DE TARJETAS (DELEGACIÓN DE EVENTOS OPTIMIZADA)
+    // ==========================================
+    $(document).off('click', '.tarjeta-item').on('click', '.tarjeta-item', function(e) {
+        console.log('Elemento capturado por propagación (Event Bubbling):', e.target);
+        $(this).toggleClass('tarjeta-seleccionada');
     });
 
-    // --- 1. Lógica de Música ---
+    // ==========================================
+    // 3. SELECTOR DE MÚSICA (HABILITADO POR DEFECTO)
+    // ==========================================
     const selectArtista = document.getElementById('artista');
     const selectCancion = document.getElementById('cancion');
     const infoCancion = document.getElementById('info-cancion');
@@ -45,39 +55,42 @@ function hidratarPagina() {
         ]
     };
 
-    selectArtista.addEventListener('change', (e) => {
-        const artista = e.target.value;
-        selectCancion.innerHTML = '<option value="">-- Elige una canción --</option>';
-        
-        if (artista) {
-            selectCancion.disabled = false;
-            musicaDB[artista].forEach(cancion => {
-                const option = document.createElement('option');
-                option.value = cancion.titulo;
-                option.textContent = cancion.titulo;
-                option.dataset.anio = cancion.anio;
-                selectCancion.appendChild(option);
-            });
-            infoCancion.style.display = 'none';
-        } else {
-            selectCancion.disabled = true;
-            infoCancion.style.display = 'none';
-        }
-    });
+    if (selectArtista && selectCancion) {
+        selectArtista.addEventListener('change', (e) => {
+            const artista = e.target.value;
+            selectCancion.innerHTML = '<option value="">-- Elige una canción --</option>';
+            
+            if (artista && musicaDB[artista]) {
+                musicaDB[artista].forEach(cancion => {
+                    const option = document.createElement('option');
+                    option.value = cancion.titulo;
+                    option.textContent = cancion.titulo;
+                    option.dataset.anio = cancion.anio;
+                    selectCancion.appendChild(option);
+                });
+                if (infoCancion) infoCancion.style.display = 'none';
+            } else {
+                selectCancion.innerHTML = '<option value="">Elige artista primero</option>';
+                if (infoCancion) infoCancion.style.display = 'none';
+            }
+        });
 
-    selectCancion.addEventListener('change', (e) => {
-        const titulo = e.target.value;
-        if (titulo) {
-            const anio = e.target.options[e.target.selectedIndex].dataset.anio;
-            const artistaNombre = selectArtista.options[selectArtista.selectedIndex].text;
-            infoCancion.innerHTML = `<i class="fas fa-play"></i> ${titulo} - ${artistaNombre} (${anio})`;
-            infoCancion.style.display = 'block';
-        } else {
-            infoCancion.style.display = 'none';
-        }
-    });
+        selectCancion.addEventListener('change', (e) => {
+            const titulo = e.target.value;
+            if (titulo && infoCancion) {
+                const anio = e.target.options[e.target.selectedIndex]?.dataset.anio || '';
+                const artistaNombre = selectArtista.options[selectArtista.selectedIndex]?.text || '';
+                infoCancion.innerHTML = `<i class="fas fa-play"></i> ${titulo} - ${artistaNombre} (${anio})`;
+                infoCancion.style.display = 'block';
+            } else if (infoCancion) {
+                infoCancion.style.display = 'none';
+            }
+        });
+    }
 
-    // --- 2. Filtro de Juegos ---
+    // ==========================================
+    // 4. FILTROS DE JUEGOS (DELEGACIÓN DE EVENTOS EN CONTENEDOR)
+    // ==========================================
     const juegosData = [
         { nombre: "World of Warcraft", cat: "mmorpg", desc: "MMORPG de fantasía épica" },
         { nombre: "League of Legends", cat: "moba", desc: "MOBA 5v5 competitivo" },
@@ -85,10 +98,9 @@ function hidratarPagina() {
     ];
 
     const contenedorJuegos = document.getElementById('contenedor-juegos');
-    const botonesFiltro = document.querySelectorAll('.filter-btn');
 
     function renderizarJuegos(filtro) {
-        if(!contenedorJuegos) return;
+        if (!contenedorJuegos) return;
         contenedorJuegos.innerHTML = ''; 
         
         const filtrados = filtro === 'todos' ? juegosData : juegosData.filter(j => j.cat === filtro);
@@ -106,105 +118,103 @@ function hidratarPagina() {
         });
     }
 
-    botonesFiltro.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            botonesFiltro.forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
-            renderizarJuegos(e.target.dataset.cat);
+    const contenedorFiltros = document.getElementById('filtros-juegos');
+    if (contenedorFiltros) {
+        contenedorFiltros.addEventListener('click', (e) => {
+            if (e.target.classList.contains('filter-btn')) {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                renderizarJuegos(e.target.dataset.cat);
+            }
         });
-    });
-    
-    renderizarJuegos('todos');
-    document.querySelector('.filter-btn[data-cat="todos"]').classList.add('active');
+        renderizarJuegos('todos');
+    }
 
-    // --- 3. Validación del Formulario ---
+    // ==========================================
+    // 5. VALIDACIÓN DEL FORMULARIO DE CONTACTO
+    // ==========================================
     const form = document.getElementById('contact-form');
     const mensajeExito = document.getElementById('mensaje-exito');
 
     function mostrarError(id, msj) {
         const el = document.getElementById(`error-${id}`);
-        if(el) {
+        if (el) {
             el.textContent = msj;
             el.style.display = 'block';
-            document.getElementById(id).classList.add('input-error');
+            const inputEl = document.getElementById(id);
+            if (inputEl) inputEl.classList.add('input-error');
         }
     }
 
     function limpiarError(id) {
         const el = document.getElementById(`error-${id}`);
-        if(el) {
+        if (el) {
             el.style.display = 'none';
-            document.getElementById(id).classList.remove('input-error');
+            const inputEl = document.getElementById(id);
+            if (inputEl) inputEl.classList.remove('input-error');
         }
     }
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault(); 
-        let valido = true;
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault(); 
+            let valido = true;
 
-        const nombre = document.getElementById('nombre').value.trim();
-        if (nombre.length < 3) {
-            mostrarError('nombre', 'Mínimo 3 letras.');
-            valido = false;
-        } else { limpiarError('nombre'); }
+            const nombre = document.getElementById('nombre')?.value.trim() || '';
+            if (nombre.length < 3) {
+                mostrarError('nombre', 'Mínimo 3 letras.');
+                valido = false;
+            } else { limpiarError('nombre'); }
 
-        const email = document.getElementById('email').value.trim();
-        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!regexEmail.test(email)) {
-            mostrarError('email', 'Correo no válido.');
-            valido = false;
-        } else { limpiarError('email'); }
+            const email = document.getElementById('email')?.value.trim() || '';
+            const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!regexEmail.test(email)) {
+                mostrarError('email', 'Correo no válido.');
+                valido = false;
+            } else { limpiarError('email'); }
 
-        const mensaje = document.getElementById('mensaje').value.trim();
-        if (mensaje.length < 5) { 
-            mostrarError('mensaje', 'Mínimo 5 caracteres.');
-            valido = false;
-        } else { limpiarError('mensaje'); }
+            const mensaje = document.getElementById('mensaje')?.value.trim() || '';
+            if (mensaje.length < 5) { 
+                mostrarError('mensaje', 'Mínimo 5 caracteres.');
+                valido = false;
+            } else { limpiarError('mensaje'); }
 
-        const terminos = document.getElementById('terminos').checked;
-        if (!terminos) {
-            mostrarError('terminos', 'Acepta términos.');
-            valido = false;
-        } else { limpiarError('terminos'); }
+            const terminos = document.getElementById('terminos')?.checked;
+            if (!terminos) {
+                mostrarError('terminos', 'Acepta los términos.');
+                valido = false;
+            } else { limpiarError('terminos'); }
 
-        if (valido) {
-            mensajeExito.style.display = 'block';
-            form.reset();
-            setTimeout(() => { mensajeExito.style.display = 'none'; }, 3000);
-        }
-    });
-
-    ['nombre', 'email', 'mensaje', 'terminos'].forEach(id => {
-        document.getElementById(id).addEventListener('input', () => limpiarError(id));
-    });
-
-    // --- 4. Navegación por Pestañas ---
-    const navItems = document.querySelectorAll('.nav-item');
-    const tabs = document.querySelectorAll('.tab-pane');
-
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            navItems.forEach(nav => nav.classList.remove('active'));
-            tabs.forEach(tab => tab.classList.remove('active'));
-
-            item.classList.add('active');
-            const targetId = item.dataset.target;
-            document.getElementById(targetId).classList.add('active');
+            if (valido && mensajeExito) {
+                mensajeExito.style.display = 'block';
+                form.reset();
+                setTimeout(() => { mensajeExito.style.display = 'none'; }, 3000);
+            }
         });
-    });
 
-    hidratado = true;
-    document.getElementById('contenedorMenu').setAttribute('data-hidratado', 'true');
-    console.log("¡Página hidratada correctamente!");
-}
-
-// ==========================================
-// 2. EVENTO DEL BOTÓN DE HIDRATACIÓN
-// ==========================================
-document.addEventListener('DOMContentLoaded', () => {
-    const btnHidratar = document.getElementById('btnHidratar');
-    if (btnHidratar) {
-        btnHidratar.addEventListener('click', hidratarPagina);
+        ['nombre', 'email', 'mensaje', 'terminos'].forEach(id => {
+            const campo = document.getElementById(id);
+            if (campo) {
+                campo.addEventListener('input', () => limpiarError(id));
+                campo.addEventListener('change', () => limpiarError(id));
+            }
+        });
     }
+
+    // ==========================================
+    // 6. INDICADOR DE ESTADO OFFLINE / ONLINE
+    // ==========================================
+    function actualizarEstadoRed() {
+        const $badge = $('#badgeEstadoRed');
+        if (!$badge.length) return;
+        if (navigator.onLine) {
+            $badge.removeClass('bg-danger').addClass('bg-success').html('<i class="fas fa-wifi me-1"></i> Online');
+        } else {
+            $badge.removeClass('bg-success').addClass('bg-danger').html('<i class="fas fa-plane me-1"></i> Offline');
+        }
+    }
+
+    window.addEventListener('online', actualizarEstadoRed);
+    window.addEventListener('offline', actualizarEstadoRed);
+    actualizarEstadoRed();
 });

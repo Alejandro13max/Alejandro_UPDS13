@@ -18,7 +18,9 @@ body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    height: 100vh;
+    /* Unidades dinámicas para evitar desbordamiento en móviles */
+    min-height: 100dvh;
+    height: 100dvh;
     overflow: hidden;
 }
 
@@ -28,8 +30,9 @@ body {
 .app-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: 100%; /* En móvil ocupa todo el ancho */
+    min-height: 100dvh;
+    height: 100dvh;
+    width: 100%;
     background: var(--bg-dark);
     position: relative;
     margin: 0 auto;
@@ -37,11 +40,10 @@ body {
 }
 
 /* ==========================================
-   MODO PC / ESCRITORIO (Simula un Smartphone)
+   MODO PC / ESCRITORIO (Marco de Smartphone)
    ========================================== */
 @media (min-width: 1025px) {
     body {
-        /* Fondo exterior para resaltar el marco */
         background: radial-gradient(circle at center, #1a1b23 0%, #050508 100%);
         display: flex;
         align-items: center;
@@ -49,26 +51,20 @@ body {
     }
 
     .app-container {
-        /* Marco de smartphone centrado */
-        max-width: 430px; /* Ancho típico de móvil */
-        height: 85vh;     /* No llega al 100% para que se vea el marco */
+        max-width: 430px;
+        height: 85dvh;
         max-height: 850px;
-        border-radius: 40px; /* Bordes redondeados tipo teléfono */
-        border: 8px solid #2a2b35; /* Bisel del teléfono */
+        border-radius: 40px;
+        border: 8px solid #2a2b35;
         box-shadow: 
             0 0 0 2px #000, 
             0 20px 50px rgba(0,0,0,0.8), 
             0 0 100px var(--gengar-glow);
-        overflow: hidden; /* Para que nada se salga del marco */
-    }
-
-    /* Ocultar scrollbar en el marco */
-    .app-container::-webkit-scrollbar {
-        display: none;
+        overflow: hidden;
     }
 }
 
-/* Header */
+/* Header Minimalista */
 .app-header {
     height: 60px;
     display: flex;
@@ -81,28 +77,6 @@ body {
 .logo {
     font-weight: 800;
     letter-spacing: 1px;
-}
-
-/* Botón de Hidratación */
-#btnHidratar {
-    transition: all 0.3s ease;
-}
-
-#btnHidratar.hidratado {
-    background-color: var(--gengar-purple);
-    border-color: var(--gengar-purple);
-    color: white;
-    box-shadow: 0 0 15px var(--gengar-glow);
-}
-
-#btnHidratar.hidratado i {
-    animation: pulse 1s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
 }
 
 /* Contenido Principal */
@@ -133,15 +107,25 @@ body {
 .text-gengar { color: var(--gengar-purple) !important; }
 .section-title { font-weight: 800; letter-spacing: -1px; }
 
-/* Avatar Minimalista */
+/* Avatar Minimalista con Carrusel */
 .avatar-minimal {
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--bg-card), var(--gengar-purple));
     padding: 4px;
     box-shadow: 0 0 30px var(--gengar-glow);
+    position: relative;
+    overflow: hidden;
 }
+
+.avatar-minimal .carousel-inner,
+.avatar-minimal .carousel-item {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
 .avatar-minimal img {
     width: 100%;
     height: 100%;
@@ -150,8 +134,21 @@ body {
     background: #000;
 }
 
-/* Botones Sociales */
-.social-btn {
+.avatar-minimal .carousel-control-prev,
+.avatar-minimal .carousel-control-next {
+    width: 25px;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.avatar-minimal:hover .carousel-control-prev,
+.avatar-minimal:hover .carousel-control-next {
+    opacity: 0.6;
+}
+
+/* Botones Sociales (Clases Semánticas) */
+.redes-contacto {
     width: 45px;
     height: 45px;
     display: flex;
@@ -164,26 +161,38 @@ body {
     transition: 0.2s;
     border: 1px solid rgba(255,255,255,0.05);
 }
-.social-btn:hover {
+.redes-contacto:hover {
     background: var(--gengar-purple);
     transform: translateY(-2px);
 }
 
-/* Tarjetas Minimalistas */
-.minimal-card {
+/* Tarjetas Semánticas y Optimizadas (.card-destacada para navegadores Brave/Opera) */
+.minimal-card,
+.card-destacada,
+.tarjeta-item {
     background: var(--bg-card);
     padding: 20px;
     border-radius: 16px;
     text-align: center;
     border: 1px solid rgba(255,255,255,0.05);
     transition: 0.2s;
+    cursor: pointer;
+    user-select: none;
 }
-.minimal-card:hover {
+.minimal-card:hover,
+.card-destacada:hover,
+.tarjeta-item:hover {
     border-color: var(--gengar-purple);
     background: #1f202b;
+    transform: translateY(-2px);
+}
+.tarjeta-item.tarjeta-seleccionada {
+    border-color: var(--gengar-purple);
+    background: #251e33;
+    box-shadow: 0 0 15px var(--gengar-glow);
 }
 
-/* Inputs Minimalistas */
+/* Inputs Minimalistas (Habilitados por defecto) */
 .minimal-input {
     background-color: var(--bg-card);
     border: 1px solid rgba(255,255,255,0.1);
@@ -199,13 +208,6 @@ body {
 }
 .minimal-input::placeholder { color: var(--text-muted); }
 
-/* Inputs Deshabilitados (Antes de Hidratar) */
-.minimal-input:disabled,
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
 .btn-gengar {
     background: var(--gengar-purple);
     border: none;
@@ -214,7 +216,7 @@ body {
 }
 .btn-gengar:hover { background: #b366ff; }
 
-/* Nav Inferior */
+/* Nav Inferior con Delegación */
 .app-nav {
     height: 70px;
     background: rgba(26, 27, 35, 0.95);
