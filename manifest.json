@@ -1,15 +1,12 @@
 {
-    "name": "Portafolio Alejandro UPDS",
-    "short_name": "Portafolio",
-    "start_url": "./index.html",
-    "display": "standalone",
-    "background_color": "#0f1016",
-    "theme_color": "#15161e",
+    "short_name": "DenisPWA",
+    "name": "Portafolio Denis Andrade",
     "icons": [
-        {
-            "src": "https://cdn-icons-png.flaticon.com/512/3405/3405862.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        }
-    ]
+        { "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", "type": "image/png", "sizes": "192x192" },
+        { "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", "type": "image/png", "sizes": "512x512" }
+    ],
+    "start_url": "./index.html",
+    "background_color": "#15161e",
+    "theme_color": "#8e24aa",
+    "display": "standalone"
 }
