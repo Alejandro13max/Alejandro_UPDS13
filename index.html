@@ -2,221 +2,272 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Portafolio Minimalista | UPDS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portafolio Denis Andrade | UPDS</title>
     
-    <!-- PWA DESACTIVADA (Manifest comentado) -->
-    <!-- <link rel="manifest" href="manifest.json"> -->
-    <!-- <meta name="theme-color" content="#15161e"> -->
-    
-    <link rel="apple-touch-icon" href="img/foto1.jpg">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     
+    <!-- PWA Manifest (Del PDF) -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8e24aa">
+
+    <!-- Nuestros estilos -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Contenedor Principal App (Modo PC / Móvil) -->
-    <div class="app-container">
-        
-        <!-- Header Minimalista -->
-        <header class="app-header">
-            <div class="d-flex justify-content-between align-items-center w-100 px-3">
-                <div class="logo"><i class="fas fa-code text-gengar"></i> ALE.UPDS</div>
-                <span id="badgeEstadoRed" class="badge bg-success" style="font-size: 0.68rem;">
-                    <i class="fas fa-wifi me-1"></i> Online
-                </span>
-            </div>
-        </header>
-
-        <!-- Contenido Dinámico (Pestañas) -->
-        <main class="app-content">
+    <!-- NAVBAR SUPERIOR -->
+    <nav class="navbar navbar-expand-lg bg-transparent fixed-top pt-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-dark" href="#"><i class="fas fa-code text-gengar"></i> Denis Andrade</a>
             
-            <!-- PESTAÑA 1: INICIO -->
-            <section id="tab-inicio" class="tab-pane active">
-                <div class="d-flex flex-column h-100 justify-content-center align-items-center text-center px-4">
+            <!-- Indicador Offline/Online (Del PDF) -->
+            <span id="estadoRed" class="badge bg-success ms-2" style="font-size: 0.7rem;">En Línea</span>
+
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto fw-semibold">
+                    <li class="nav-item"><a class="nav-link text-dark" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="#contacto">Contacto</a></li>
+                </ul>
+                <!-- Botón Modo Oscuro (Del PDF DOM/Hidratación) -->
+                <button id="themeBtn" class="btn btn-outline-dark ms-3 rounded-pill btn-tactil">🌙 Modo</button>
+                <a href="#contacto" class="btn btn-gengar ms-2 px-4 rounded-pill btn-tactil">Hablemos</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN HERO -->
+    <section class="hero-section" id="inicio">
+        <div class="container">
+            <div class="row align-items-center min-vh-100 pt-5">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <p class="text-muted fw-bold text-uppercase tracking-wide">Hola, bienvenido a mi espacio</p>
+                    <h1 class="display-3 fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">Creative <br> <span class="text-gengar">Developer</span></h1>
+                    <p class="text-muted fs-5 mb-5">Soy Denis Andrade. Estudiante de la UPDS. Apasionado por el Futsal, el Desarrollo Web y los videojuegos.</p>
                     
-                    <!-- Carrusel de Fotos Locales (img/foto1.jpg, img/foto2.jpg, img/foto3.jpg) -->
-                    <div id="carruselAvatar" class="carousel slide carousel-fade avatar-minimal mb-4" data-bs-ride="carousel" data-bs-interval="2800">
-                        <div class="carousel-inner w-100 h-100">
-                            <div class="carousel-item active w-100 h-100">
-                                <img src="img/foto1.jpg" alt="Alejandro Foto 1" class="d-block w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="img/foto2.jpg" alt="Alejandro Foto 2" class="d-block w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="img/foto3.jpg" alt="Alejandro Foto 3" class="d-block w-100 h-100">
-                            </div>
+                    <div class="d-flex align-items-center gap-4">
+                        <a href="#contacto" class="btn btn-gengar btn-lg px-4 btn-tactil">Contáctame</a>
+                        <div class="d-flex gap-2">
+                            <a href="https://facebook.com" target="_blank" class="social-circle btn-tactil"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://instagram.com" target="_blank" class="social-circle btn-tactil"><i class="fab fa-instagram"></i></a>
+                            <a href="https://wa.me/59100000000" target="_blank" class="social-circle btn-tactil"><i class="fab fa-whatsapp"></i></a>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carruselAvatar" data-bs-slide="prev" style="width: 26px; opacity: 0.4;">
-                            <span class="carousel-control-prev-icon" aria-hidden="true" style="width: 12px; height: 12px;"></span>
-                            <span class="visually-hidden">Anterior</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carruselAvatar" data-bs-slide="next" style="width: 26px; opacity: 0.4;">
-                            <span class="carousel-control-next-icon" aria-hidden="true" style="width: 12px; height: 12px;"></span>
-                            <span class="visually-hidden">Siguiente</span>
-                        </button>
-                    </div>
-
-                    <h1 class="display-4 fw-bold mb-2 text-white">Hola, soy <br><span class="text-gengar">Alejandro</span></h1>
-                    <p class="text-muted mb-5" style="max-width: 300px;">Desarrollador Web & Estudiante UPDS. Apasionado por el código limpio y el Futsal.</p>
-                    
-                    <!-- Clases semánticas mantenidas: .redes-contacto -->
-                    <div class="d-flex gap-3">
-                        <a href="#" class="redes-contacto"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="redes-contacto"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="redes-contacto"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
-            </section>
 
-            <!-- PESTAÑA 2: INTERESES -->
-            <section id="tab-intereses" class="tab-pane">
-                <div class="h-100 d-flex flex-column justify-content-center px-4">
-                    <h2 class="section-title mb-4">Mis Intereses</h2>
-                    <div class="row g-3">
-                        <div class="col-6">
-                            <div class="minimal-card card-destacada tarjeta-item" data-nombre="Coding">
-                                <i class="fas fa-code text-gengar mb-2 fs-4"></i>
-                                <h6 class="text-white mb-0">Coding</h6>
-                                <small class="text-muted">Web Dev</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="minimal-card card-destacada tarjeta-item" data-nombre="Futsal">
-                                <i class="fas fa-futbol text-gengar mb-2 fs-4"></i>
-                                <h6 class="text-white mb-0">Futsal</h6>
-                                <small class="text-muted">Deporte</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="minimal-card card-destacada tarjeta-item" data-nombre="Gaming">
-                                <i class="fas fa-gamepad text-gengar mb-2 fs-4"></i>
-                                <h6 class="text-white mb-0">Gaming</h6>
-                                <small class="text-muted">E-Sports</small>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="minimal-card card-destacada tarjeta-item" data-nombre="Música">
-                                <i class="fas fa-music text-gengar mb-2 fs-4"></i>
-                                <h6 class="text-white mb-0">Música</h6>
-                                <small class="text-muted">Trap/HipHop</small>
+                <!-- Carrusel Derecha (3 Fotos - Incluyendo Gengar) -->
+                <div class="col-lg-7">
+                    <div class="hero-image-container">
+                        <div id="inicioCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                                        <div class="carousel-inner rounded-4 shadow-lg">
+                                <div class="carousel-item active">
+                                    <!-- Tu foto 1 -->
+                                    <img src="img/foto1.jpg" class="d-block w-100 hero-img" alt="Foto 1" loading="lazy">
+                                </div>
+                                <div class="carousel-item">
+                                    <!-- Tu foto 2 -->
+                                    <img src="img/foto2.jpg" class="d-block w-100 hero-img" alt="Foto 2" loading="lazy">
+                                </div>
+                                <div class="carousel-item">
+                                    <!-- Tu foto 3 -->
+                                    <img src="img/foto3.jpg" class="d-block w-100 hero-img" alt="Foto 3" loading="lazy">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            <!-- PESTAÑA 3: FAVORITOS (DOM) -->
-            <section id="tab-favoritos" class="tab-pane">
-                <div class="h-100 d-flex flex-column px-4 py-4 overflow-auto">
-                    <h2 class="section-title mb-3">Favoritos</h2>
-                    
-                    <!-- Selector de Música Minimalista (Habilitados por defecto) -->
-                    <div class="mb-3">
-                        <label class="form-label text-muted small text-uppercase">Artista</label>
-                        <select id="artista" class="form-select minimal-input">
-                            <option value="">Seleccionar...</option>
-                            <option value="duki">Duki</option>
-                            <option value="cro">C.R.O</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label text-muted small text-uppercase">Canción</label>
-                        <select id="cancion" class="form-select minimal-input">
-                            <option value="">Elige artista primero</option>
-                        </select>
-                        <div id="info-cancion" class="mt-2 text-gengar small fw-bold" style="display:none;"></div>
-                    </div>
-
-                    <!-- Filtro de Juegos Minimalista (Habilitados por defecto con Delegación) -->
-                    <div class="mt-auto">
-                        <label class="form-label text-muted small text-uppercase">Juegos</label>
-                        <div class="d-flex gap-2 mb-3 overflow-auto pb-2" id="filtros-juegos">
-                            <button class="btn btn-sm btn-outline-light rounded-pill filter-btn active" data-cat="todos">Todos</button>
-                            <button class="btn btn-sm btn-outline-light rounded-pill filter-btn" data-cat="mmorpg">MMO</button>
-                            <button class="btn btn-sm btn-outline-light rounded-pill filter-btn" data-cat="moba">MOBA</button>
-                        </div>
-                        <div id="contenedor-juegos" class="d-flex flex-column gap-2"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PESTAÑA 4: CONTACTO -->
-            <section id="tab-contacto" class="tab-pane">
-                <div class="h-100 d-flex flex-column justify-content-center px-4">
-                    <h2 class="section-title mb-4">Contacto</h2>
-                    <form id="contact-form" novalidate>
-                        <div class="mb-3">
-                            <input type="text" class="form-control minimal-input" id="nombre" placeholder="Nombre">
-                            <small class="text-danger error-msg" id="error-nombre"></small>
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control minimal-input" id="email" placeholder="Email">
-                            <small class="text-danger error-msg" id="error-email"></small>
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control minimal-input" id="mensaje" rows="2" placeholder="Mensaje"></textarea>
-                            <small class="text-danger error-msg" id="error-mensaje"></small>
-                        </div>
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="checkbox" id="terminos">
-                            <label class="form-check-label text-muted small" for="terminos">Acepto términos</label>
-                            <small class="text-danger error-msg d-block" id="error-terminos"></small>
-                        </div>
-                        <button type="submit" class="btn btn-gengar w-100 py-2">ENVIAR</button>
-                        <div id="mensaje-exito" class="text-success text-center mt-2 small fw-bold" style="display:none;">¡Enviado con éxito!</div>
-                    </form>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Barra de Navegación Inferior (App Style con Delegación de Eventos) -->
-        <nav class="app-nav">
-            <a href="#" class="nav-item active" data-target="tab-inicio">
-                <i class="fas fa-home"></i>
-                <span>Inicio</span>
-            </a>
-            <a href="#" class="nav-item" data-target="tab-intereses">
-                <i class="fas fa-star"></i>
-                <span>Intereses</span>
-            </a>
-            <a href="#" class="nav-item" data-target="tab-favoritos">
-                <i class="fas fa-heart"></i>
-                <span>Favoritos</span>
-            </a>
-            <a href="#" class="nav-item" data-target="tab-contacto">
-                <i class="fas fa-envelope"></i>
-                <span>Contacto</span>
-            </a>
-        </nav>
-
+    <!-- FRANJA OSCURA DE PESTAÑAS -->
+    <div class="dark-nav-strip sticky-top">
+        <div class="container text-center">
+            <div class="d-flex justify-content-center flex-wrap gap-4 py-4">
+                <a href="#intereses" class="strip-link btn-tactil">Intereses <i class="fas fa-star text-gengar"></i></a>
+                <a href="#horario" class="strip-link btn-tactil">Horario <i class="fas fa-clock text-gengar"></i></a>
+                <a href="#favoritos" class="strip-link btn-tactil">Favoritos <i class="fas fa-heart text-gengar"></i></a>
+            </div>
+        </div>
     </div>
 
-    <!-- Scripts: jQuery, Bootstrap y Script principal -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- SECCIÓN OSCURA -->
+    <section class="dark-section pb-5">
+        <div class="container py-5">
+            
+            <!-- INTERESES -->
+            <div id="intereses" class="mb-5 pt-4">
+                <div class="text-center mb-5">
+                    <span class="text-gengar fw-bold text-uppercase tracking-wide">Sobre mí</span>
+                    <h2 class="display-5 fw-bold text-white mt-2">Un Día En La Vida</h2>
+                </div>
+                
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="porto-card">
+                            <p class="text-light-muted">Enfoque en sistemas, maquetación web, lógica de programación y resolución de problemas técnicos en la universidad.</p>
+                            <div class="porto-card-footer"><i class="fas fa-code"></i> Área Productiva</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="porto-card">
+                            <p class="text-light-muted">Disciplina en la cancha, trabajo en equipo, preparación física constante y campeonatos de futsal.</p>
+                            <div class="porto-card-footer"><i class="fas fa-futbol"></i> Futsal</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="porto-card">
+                            <p class="text-light-muted">Partidas estratégicas en PC, competitividad en MOBA, MMORPG y simuladores de deportes.</p>
+                            <div class="porto-card-footer"><i class="fas fa-gamepad"></i> Gaming</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HORARIO -->
+            <div id="horario" class="mb-5 pt-4">
+                <div class="text-center mb-4">
+                    <h2 class="display-6 fw-bold text-white">Horario Diario</h2>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="porto-card">
+                            <div class="timeline-dark">
+                                <div class="timeline-item-dark">
+                                    <h6 class="text-white fw-bold mb-1">Lunes a Viernes</h6>
+                                    <p class="text-light-muted small mb-0">Mañana: Universidad | Tarde: Entrenamiento Club | Noche: Estudio en casa</p>
+                                </div>
+                                <div class="timeline-item-dark">
+                                    <h6 class="text-white fw-bold mb-1">Sábado y Domingo</h6>
+                                    <p class="text-light-muted small mb-0">Mañana: Partidos de Futsal | Tarde: Entrenamiento | Noche: Descansar</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAVORITOS (Ahora con Acordeones para no hacer scroll) -->
+            <div id="favoritos" class="mb-5 pt-4">
+                <div class="text-center mb-5">
+                    <span class="text-gengar fw-bold text-uppercase tracking-wide">Tecnología y Ocio</span>
+                    <h2 class="display-5 fw-bold text-white mt-2">Top Favoritos</h2>
+                </div>
+                
+                <!-- ACORDEÓN BOOTSTRAP -->
+                <div class="accordion accordion-flush row g-4 justify-content-center" id="accordionFavoritos">
+                    
+                    <!-- Música -->
+                    <div class="col-md-6">
+                        <div class="accordion-item porto-card p-0 border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent text-white fw-bold btn-tactil" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMusica">
+                                    <i class="fas fa-music text-gengar me-2"></i> Música (Trap Argentino)
+                                </button>
+                            </h2>
+                            <div id="collapseMusica" class="accordion-collapse collapse" data-bs-parent="#accordionFavoritos">
+                                <div class="accordion-body">
+                                    <!-- Lógica de selección de música (La que ya tenías) -->
+                                    <select id="artista" class="form-select bg-dark text-white border-secondary mb-2">
+                                        <option value="">-- Selecciona Artista --</option>
+                                        <option value="duki">Duki</option>
+                                        <option value="cro">C.R.O</option>
+                                    </select>
+                                    <select id="cancion" class="form-select bg-dark text-white border-secondary mb-3" disabled>
+                                        <option value="">-- Primero elige artista --</option>
+                                    </select>
+                                    <div id="info-cancion" class="text-gengar small fw-bold" style="display:none;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Juegos -->
+                    <div class="col-md-6">
+                        <div class="accordion-item porto-card p-0 border-0">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed bg-transparent text-white fw-bold btn-tactil" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJuegos">
+                                    <i class="fas fa-gamepad text-gengar me-2"></i> Juegos Favoritos
+                                </button>
+                            </h2>
+                            <div id="collapseJuegos" class="accordion-collapse collapse" data-bs-parent="#accordionFavoritos">
+                                <div class="accordion-body">
+                                    <!-- Lógica de filtro de juegos (La que ya tenías) -->
+                                    <div class="d-flex gap-2 flex-wrap mb-3">
+                                        <button class="btn btn-sm btn-outline-light filter-btn active btn-tactil" data-cat="todos">Todos</button>
+                                        <button class="btn btn-sm btn-outline-light filter-btn btn-tactil" data-cat="mmorpg">MMORPG</button>
+                                        <button class="btn btn-sm btn-outline-light filter-btn btn-tactil" data-cat="moba">MOBA</button>
+                                    </div>
+                                    <div id="contenedor-juegos" class="d-flex flex-column gap-2"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Frase -->
+            <div class="text-center mt-5 pt-5 mb-5">
+                <h3 class="fst-italic text-white fw-light">"Siempre estuve en la mía, enfocado en lo mío. Si no sumas, no sirves."</h3>
+                <p class="text-gengar mt-3 fw-bold">// Alejandro Duki</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FORMULARIO -->
+    <section class="light-section py-5" id="contacto">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5">
+                    <h2 class="display-5 fw-bold text-dark">Hablemos</h2>
+                </div>
+                <div class="col-lg-8">
+                    <form id="contact-form" class="p-4 rounded-4 shadow-sm bg-white" novalidate>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control custom-input-light" id="nombre" placeholder="Nombre Completo *">
+                                <small class="text-danger error-msg fw-bold" id="error-nombre"></small>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control custom-input-light" id="email" placeholder="Correo Electrónico *">
+                                <small class="text-danger error-msg fw-bold" id="error-email"></small>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-gengar w-100 py-3 btn-tactil">ENVIAR MENSAJE</button>
+                            </div>
+                        </div>
+                        <div id="mensaje-exito" class="text-success text-center mt-3 fw-bold" style="display:none;">¡Mensaje enviado con éxito!</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark text-center py-4 border-top border-secondary">
+        <div class="container">
+            <p class="text-light mb-3">Sígueme en mis redes:</p>
+            <div class="d-flex justify-content-center gap-3 mb-3">
+                <a href="https://facebook.com" target="_blank" class="social-circle-dark btn-tactil"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" target="_blank" class="social-circle-dark btn-tactil"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/59100000000" target="_blank" class="social-circle-dark btn-tactil"><i class="fab fa-whatsapp"></i></a>
+            </div>
+            <p class="text-muted small mb-0">&copy; 2026 - Denis Andrade - UPDS</p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
-    
-    <!-- PWA DESACTIVADA (Service Worker comentado) -->
-    <!-- 
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(reg => console.log('SW registrado'))
-                    .catch(err => console.log('SW error', err));
-            });
-        }
-    </script> 
-    -->
 </body>
 </html>
