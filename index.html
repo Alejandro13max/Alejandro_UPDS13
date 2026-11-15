@@ -2,269 +2,351 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Denis Andrade | UPDS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Denis Andrade | Portafolio PWA</title>
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
     
-    <!-- PWA Manifest (Del PDF) -->
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#8e24aa">
-
-    <!-- Nuestros estilos -->
+    
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="modo-claro">
 
-    <!-- NAVBAR SUPERIOR -->
-    <nav class="navbar navbar-expand-lg bg-transparent fixed-top pt-4">
-        <div class="container">
-            <a class="navbar-brand fw-bold text-dark" href="#"><i class="fas fa-code text-gengar"></i> Denis Andrade</a>
-            
-            <!-- Indicador Offline/Online (Del PDF) -->
-            <span id="estadoRed" class="badge bg-success ms-2" style="font-size: 0.7rem;">En Línea</span>
-
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto fw-semibold">
-                    <li class="nav-item"><a class="nav-link text-dark" href="#inicio">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link text-dark" href="#contacto">Contacto</a></li>
-                </ul>
-                <!-- Botón Modo Oscuro (Del PDF DOM/Hidratación) -->
-                <button id="themeBtn" class="btn btn-outline-dark ms-3 rounded-pill btn-tactil">🌙 Modo</button>
-                <a href="#contacto" class="btn btn-gengar ms-2 px-4 rounded-pill btn-tactil">Hablemos</a>
-            </div>
+    <!-- TOP BAR -->
+    <header class="top-bar d-flex justify-content-between align-items-center px-4 py-3 fixed-top">
+        <div class="d-flex align-items-center gap-2">
+            <h1 class="logo m-0 fs-4 fw-bold text-dark">Denis<span class="text-gengar">Dev</span></h1>
+            <span id="estadoRed" class="badge bg-success rounded-pill" style="font-size: 0.6rem;">En Línea</span>
         </div>
-    </nav>
+        
+        <div class="d-flex gap-2">
+            <button id="themeBtn" class="btn btn-icon btn-tactil">🌙</button>
+            <button id="btnMenu" class="btn btn-icon btn-tactil"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
 
-    <!-- SECCIÓN HERO -->
-    <section class="hero-section" id="inicio">
-        <div class="container">
-            <div class="row align-items-center min-vh-100 pt-5">
-                <div class="col-lg-5 mb-5 mb-lg-0">
-                    <p class="text-muted fw-bold text-uppercase tracking-wide">Hola, bienvenido a mi espacio</p>
-                    <h1 class="display-3 fw-bold mb-4 text-dark" style="font-family: 'Playfair Display', serif;">Creative <br> <span class="text-gengar">Developer</span></h1>
-                    <p class="text-muted fs-5 mb-5">Soy Denis Andrade. Estudiante de la UPDS. Apasionado por el Futsal, el Desarrollo Web y los videojuegos.</p>
+    <!-- MENÚ HAMBURGUESA -->
+    <div id="menuDesplegable" class="menu-flotante shadow-lg">
+        <div class="menu-header text-center pb-3 mb-3 border-bottom">
+            <h5 class="text-gengar fw-bold m-0">Opciones Rápidas</h5>
+            <small class="text-muted" id="textoHidratacion">Cargando...</small>
+        </div>
+        <ul class="list-unstyled m-0">
+            <li><a href="#" onclick="cambiarSeccion('inicio')"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#" onclick="cambiarSeccion('sobre-mi')"><i class="fas fa-user-astronaut"></i> Sobre mí</a></li>
+            <li><a href="#" onclick="cambiarSeccion('horario')"><i class="fas fa-calendar-alt"></i> Mi Horario</a></li>
+            <li><a href="#" onclick="cambiarSeccion('favoritos')"><i class="fas fa-star"></i> Favoritos</a></li>
+            <li><a href="#" onclick="cambiarSeccion('contacto')"><i class="fas fa-envelope"></i> Contacto</a></li>
+        </ul>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="container main-content">
+        
+        <!-- 1. INICIO -->
+        <section id="sec-inicio" class="app-seccion activa pt-5">
+            <div class="row align-items-center pt-4 min-vh-75">
+                <div class="col-lg-6 mb-4 mb-lg-0 text-center text-lg-start">
+                    <p class="text-gengar fw-bold text-uppercase tracking-wide mb-2">Hola, bienvenido</p>
+                    <h1 class="display-4 fw-bold mb-3 text-dark hero-title">Soy Denis<br><span class="text-gengar">Andrade</span></h1>
+                    <p class="text-muted fs-5 mb-4">Estudiante de la UPDS. Apasionado por el Futsal, el Desarrollo Web y los videojuegos.</p>
+                    <button onclick="cambiarSeccion('contacto')" class="btn btn-gengar btn-lg px-5 rounded-pill shadow">Hablemos <i class="fas fa-arrow-right ms-2"></i></button>
                     
-                    <div class="d-flex align-items-center gap-4">
-                        <a href="#contacto" class="btn btn-gengar btn-lg px-4 btn-tactil">Contáctame</a>
-                        <div class="d-flex gap-2">
-                            <a href="https://facebook.com" target="_blank" class="social-circle btn-tactil"><i class="fab fa-facebook-f"></i></a>
-                            <a href="https://instagram.com" target="_blank" class="social-circle btn-tactil"><i class="fab fa-instagram"></i></a>
-                            <a href="https://wa.me/59100000000" target="_blank" class="social-circle btn-tactil"><i class="fab fa-whatsapp"></i></a>
+                    <div class="d-flex gap-4 mt-5 justify-content-center justify-content-lg-start">
+                        <div class="stat-box text-center">
+                            <h3 class="fw-bold text-gengar m-0">3+</h3>
+                            <small class="text-muted">Años Futsal</small>
+                        </div>
+                        <div class="stat-box text-center">
+                            <h3 class="fw-bold text-gengar m-0">5+</h3>
+                            <small class="text-muted">Proyectos Web</small>
+                        </div>
+                        <div class="stat-box text-center">
+                            <h3 class="fw-bold text-gengar m-0">100%</h3>
+                            <small class="text-muted">Dedicación</small>
                         </div>
                     </div>
                 </div>
-
-                <!-- Carrusel Derecha (3 Fotos - Incluyendo Gengar) -->
-                <div class="col-lg-7">
-                    <div class="hero-image-container">
+                <div class="col-lg-6">
+                    <div class="hero-image-container shadow-lg">
                         <div id="inicioCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                                                        <div class="carousel-inner rounded-4 shadow-lg">
+                            <div class="carousel-inner rounded-4">
                                 <div class="carousel-item active">
-                                    <!-- Tu foto 1 -->
-                                    <img src="img/foto1.jpg" class="d-block w-100 hero-img" alt="Foto 1" loading="lazy">
+                                    <img src="img/foto1.jpg" class="d-block w-100 hero-img" alt="Futsal" loading="lazy">
                                 </div>
                                 <div class="carousel-item">
-                                    <!-- Tu foto 2 -->
-                                    <img src="img/foto2.jpg" class="d-block w-100 hero-img" alt="Foto 2" loading="lazy">
+                                    <img src="img/foto2.jpg" class="d-block w-100 hero-img" alt="Hardware" loading="lazy">
                                 </div>
                                 <div class="carousel-item">
-                                    <!-- Tu foto 3 -->
-                                    <img src="img/foto3.jpg" class="d-block w-100 hero-img" alt="Foto 3" loading="lazy">
+                                    <img src="img/foto3.jpg" class="d-block w-100 hero-img" alt="Gaming" loading="lazy">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- FRANJA OSCURA DE PESTAÑAS -->
-    <div class="dark-nav-strip sticky-top">
-        <div class="container text-center">
-            <div class="d-flex justify-content-center flex-wrap gap-4 py-4">
-                <a href="#intereses" class="strip-link btn-tactil">Intereses <i class="fas fa-star text-gengar"></i></a>
-                <a href="#horario" class="strip-link btn-tactil">Horario <i class="fas fa-clock text-gengar"></i></a>
-                <a href="#favoritos" class="strip-link btn-tactil">Favoritos <i class="fas fa-heart text-gengar"></i></a>
+        <!-- 2. SOBRE MI (CON TARJETAS INTERACTIVAS) -->
+        <section id="sec-sobre-mi" class="app-seccion pt-5">
+            <div class="text-center mb-4 pt-4">
+                <h2 class="display-6 fw-bold text-dark">Mi Mundo</h2>
+                <p class="text-muted">Haz clic en una tarjeta para saber más</p>
+            </div>
+            <div class="row g-4">
+                <!-- Tarjeta Futsal -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom p-4 text-center h-100 card-interactiva" onclick="abrirModal('futsal')">
+                        <div class="icon-box mx-auto mb-3"><i class="fas fa-futbol"></i></div>
+                        <h5 class="fw-bold text-dark">Futsal</h5>
+                        <p class="text-muted small mb-0">Disciplina y campeonatos.</p>
+                    </div>
+                </div>
+                <!-- Tarjeta Gaming -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom p-4 text-center h-100 card-interactiva" onclick="abrirModal('gaming')">
+                        <div class="icon-box mx-auto mb-3"><i class="fas fa-gamepad"></i></div>
+                        <h5 class="fw-bold text-dark">Gaming</h5>
+                        <p class="text-muted small mb-0">Estrategia y aventuras.</p>
+                    </div>
+                </div>
+                <!-- Tarjeta Estudio -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom p-4 text-center h-100 card-interactiva" onclick="abrirModal('estudio')">
+                        <div class="icon-box mx-auto mb-3"><i class="fas fa-laptop-code"></i></div>
+                        <h5 class="fw-bold text-dark">Estudio</h5>
+                        <p class="text-muted small mb-0">Universidad y código.</p>
+                    </div>
+                </div>
+                <!-- Tarjeta Hardware -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="card-custom p-4 text-center h-100 card-interactiva" onclick="abrirModal('hardware')">
+                        <div class="icon-box mx-auto mb-3"><i class="fas fa-microchip"></i></div>
+                        <h5 class="fw-bold text-dark">Hardware</h5>
+                        <p class="text-muted small mb-0">Armado y componentes.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card-custom mt-4 p-5 text-center bg-gengar-light">
+                <h3 class="fw-bold text-gengar mb-2">"El éxito es la suma de pequeños esfuerzos repetidos día tras día."</h3>
+                <p class="text-muted m-0">- Robert Collier</p>
+            </div>
+        </section>
+
+        <!-- 3. HORARIO (CON MÁS CONTENIDO) -->
+        <section id="sec-horario" class="app-seccion pt-5">
+            <div class="text-center mb-4 pt-4">
+                <h2 class="display-6 fw-bold text-dark">Mi Rutina</h2>
+            </div>
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-7">
+                    <div class="card-custom p-4 h-100">
+                        <h5 class="fw-bold text-dark mb-4"><i class="fas fa-clock text-gengar me-2"></i> Horario Semanal</h5>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h6 class="fw-bold text-dark mb-1">Lunes a Viernes</h6>
+                                <p class="text-muted small mb-0">Mañana: Universidad UPDS | Tarde: Entrenamiento Club | Noche: Estudio y Proyectos</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <h6 class="fw-bold text-dark mb-1">Sábado y Domingo</h6>
+                                <p class="text-muted small mb-0">Mañana: Partidos Oficiales de Futsal | Tarde: Entrenamiento | Noche: Descanso</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tarjeta de Pendientes Ampliada -->
+                <div class="col-lg-5">
+                    <div class="card-custom p-4 h-100 d-flex flex-column">
+                        <h5 class="fw-bold text-dark mb-4"><i class="fas fa-tasks text-gengar me-2"></i> Pendientes</h5>
+                        <div class="flex-grow-1">
+                            <div class="d-flex gap-3 align-items-start mb-3">
+                                <i class="fas fa-check-circle text-success mt-1"></i>
+                                <div><strong class="text-dark">Proyecto PWA</strong><br><small class="text-muted">Entregar Portafolio Personal (Lunes)</small></div>
+                            </div>
+                            <div class="d-flex gap-3 align-items-start mb-3">
+                                <i class="fas fa-futbol text-gengar mt-1"></i>
+                                <div><strong class="text-dark">Partido de Futsal</strong><br><small class="text-muted">Domingo 18:00 - Campeonato Local</small></div>
+                            </div>
+                            <div class="d-flex gap-3 align-items-start">
+                                <i class="fas fa-book text-primary mt-1"></i>
+                                <div><strong class="text-dark">Examen UPDS</strong><br><small class="text-muted">Próximo viernes - Diseño Web II</small></div>
+                            </div>
+                        </div>
+                        <!-- Frase motivacional extra -->
+                        <div class="mt-3 p-3 bg-gengar-light rounded text-center">
+                            <small class="fw-bold text-gengar">"La disciplina supera al talento."</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FAVORITOS -->
+        <section id="sec-favoritos" class="app-seccion pt-5">
+            <div class="text-center mb-4 pt-4">
+                <h2 class="display-6 fw-bold text-dark">Favoritos</h2>
+            </div>
+            <div class="accordion row g-4" id="accordionFavoritos">
+                <div class="col-md-6">
+                    <div class="accordion-item card-custom border-0 p-0 overflow-hidden">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold btn-tactil" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMusica">
+                                <i class="fas fa-music text-gengar me-3"></i> Música (Trap)
+                            </button>
+                        </h2>
+                        <div id="collapseMusica" class="accordion-collapse collapse" data-bs-parent="#accordionFavoritos">
+                            <div class="accordion-body">
+                                <select id="artista" class="form-select mb-2">
+                                    <option value="">-- Artista --</option>
+                                    <option value="duki">Duki</option>
+                                    <option value="cro">C.R.O</option>
+                                </select>
+                                <select id="cancion" class="form-select mb-3" disabled>
+                                    <option value="">-- Canción --</option>
+                                </select>
+                                <div id="info-cancion" class="text-gengar small fw-bold p-2 rounded bg-light" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="accordion-item card-custom border-0 p-0 overflow-hidden">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed fw-bold btn-tactil" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJuegos">
+                                <i class="fas fa-gamepad text-gengar me-3"></i> Videojuegos
+                            </button>
+                        </h2>
+                        <div id="collapseJuegos" class="accordion-collapse collapse" data-bs-parent="#accordionFavoritos">
+                            <div class="accordion-body">
+                                <div class="d-flex gap-2 flex-wrap mb-3">
+                                    <button class="btn btn-sm btn-outline-dark filter-btn active btn-tactil" data-cat="todos">Todos</button>
+                                    <button class="btn btn-sm btn-outline-dark filter-btn btn-tactil" data-cat="mmorpg">MMORPG</button>
+                                    <button class="btn btn-sm btn-outline-dark filter-btn btn-tactil" data-cat="moba">MOBA</button>
+                                </div>
+                                <div id="contenedor-juegos" class="d-flex flex-column gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-custom mt-4 p-4">
+                <h5 class="fw-bold text-dark mb-4"><i class="fas fa-code text-gengar me-2"></i> Tecnologías que domino</h5>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between text-dark fw-bold small mb-1"><span>HTML / CSS</span><span>90%</span></div>
+                        <div class="progress" style="height: 8px;"><div class="progress-bar bg-gengar" style="width: 90%;"></div></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between text-dark fw-bold small mb-1"><span>JavaScript / jQuery</span><span>80%</span></div>
+                        <div class="progress" style="height: 8px;"><div class="progress-bar bg-gengar" style="width: 80%;"></div></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between text-dark fw-bold small mb-1"><span>Bootstrap</span><span>85%</span></div>
+                        <div class="progress" style="height: 8px;"><div class="progress-bar bg-gengar" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-between text-dark fw-bold small mb-1"><span>Lógica de Programación</span><span>75%</span></div>
+                        <div class="progress" style="height: 8px;"><div class="progress-bar bg-gengar" style="width: 75%;"></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CONTACTO -->
+        <section id="sec-contacto" class="app-seccion pt-5">
+            <div class="text-center mb-4 pt-4">
+                <h2 class="display-6 fw-bold text-dark">Hablemos</h2>
+            </div>
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-7">
+                    <form id="contact-form" class="card-custom p-4 h-100" novalidate>
+                        <h5 class="fw-bold text-dark mb-4">Envíame un mensaje</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control custom-input" id="nombre" placeholder="Nombre *">
+                                <small class="text-danger error-msg fw-bold" id="error-nombre"></small>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="email" class="form-control custom-input" id="email" placeholder="Correo *">
+                                <small class="text-danger error-msg fw-bold" id="error-email"></small>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-gengar w-100 py-3 rounded-pill btn-tactil">ENVIAR MENSAJE</button>
+                            </div>
+                        </div>
+                        <div id="mensaje-exito" class="alert alert-success text-center mt-3 fw-bold" style="display:none;">¡Enviado con éxito!</div>
+                    </form>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card-custom p-4 h-100 bg-gengar-light text-center d-flex flex-column justify-content-center">
+                        <h5 class="fw-bold text-gengar mb-4">Información Directa</h5>
+                        <div class="mb-3">
+                            <i class="fas fa-envelope fa-2x text-gengar mb-2"></i>
+                            <p class="text-dark m-0 fw-bold">denis.andrade@upds.edu.bo</p>
+                        </div>
+                        <div class="mb-3">
+                            <i class="fas fa-map-marker-alt fa-2x text-gengar mb-2"></i>
+                            <p class="text-dark m-0 fw-bold">La Paz, Bolivia</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone fa-2x text-gengar mb-2"></i>
+                            <p class="text-dark m-0 fw-bold">+591 700 00000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL DE INFORMACIÓN (Se llena con JS) -->
+    <div class="modal fade" id="modalInfo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content card-custom border-0">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-gengar" id="modalTitulo">Título</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-dark" id="modalContenido">
+                    <!-- Aquí JS inyectará el texto -->
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-gengar w-100 rounded-pill" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- SECCIÓN OSCURA -->
-    <section class="dark-section pb-5">
-        <div class="container py-5">
-            
-            <!-- INTERESES -->
-            <div id="intereses" class="mb-5 pt-4">
-                <div class="text-center mb-5">
-                    <span class="text-gengar fw-bold text-uppercase tracking-wide">Sobre mí</span>
-                    <h2 class="display-5 fw-bold text-white mt-2">Un Día En La Vida</h2>
-                </div>
-                
-                <div class="row g-4 justify-content-center">
-                    <div class="col-md-6 col-lg-4">
-                        <div class="porto-card">
-                            <p class="text-light-muted">Enfoque en sistemas, maquetación web, lógica de programación y resolución de problemas técnicos en la universidad.</p>
-                            <div class="porto-card-footer"><i class="fas fa-code"></i> Área Productiva</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="porto-card">
-                            <p class="text-light-muted">Disciplina en la cancha, trabajo en equipo, preparación física constante y campeonatos de futsal.</p>
-                            <div class="porto-card-footer"><i class="fas fa-futbol"></i> Futsal</div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="porto-card">
-                            <p class="text-light-muted">Partidas estratégicas en PC, competitividad en MOBA, MMORPG y simuladores de deportes.</p>
-                            <div class="porto-card-footer"><i class="fas fa-gamepad"></i> Gaming</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- HORARIO -->
-            <div id="horario" class="mb-5 pt-4">
-                <div class="text-center mb-4">
-                    <h2 class="display-6 fw-bold text-white">Horario Diario</h2>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-                        <div class="porto-card">
-                            <div class="timeline-dark">
-                                <div class="timeline-item-dark">
-                                    <h6 class="text-white fw-bold mb-1">Lunes a Viernes</h6>
-                                    <p class="text-light-muted small mb-0">Mañana: Universidad | Tarde: Entrenamiento Club | Noche: Estudio en casa</p>
-                                </div>
-                                <div class="timeline-item-dark">
-                                    <h6 class="text-white fw-bold mb-1">Sábado y Domingo</h6>
-                                    <p class="text-light-muted small mb-0">Mañana: Partidos de Futsal | Tarde: Entrenamiento | Noche: Descansar</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FAVORITOS (Ahora con Acordeones para no hacer scroll) -->
-            <div id="favoritos" class="mb-5 pt-4">
-                <div class="text-center mb-5">
-                    <span class="text-gengar fw-bold text-uppercase tracking-wide">Tecnología y Ocio</span>
-                    <h2 class="display-5 fw-bold text-white mt-2">Top Favoritos</h2>
-                </div>
-                
-                <!-- ACORDEÓN BOOTSTRAP -->
-                <div class="accordion accordion-flush row g-4 justify-content-center" id="accordionFavoritos">
-                    
-                    <!-- Música -->
-                    <div class="col-md-6">
-                        <div class="accordion-item porto-card p-0 border-0">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-transparent text-white fw-bold btn-tactil" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMusica">
-                                    <i class="fas fa-music text-gengar me-2"></i> Música (Trap Argentino)
-                                </button>
-                            </h2>
-                            <div id="collapseMusica" class="accordion-collapse collapse" data-bs-parent="#accordionFavoritos">
-                                <div class="accordion-body">
-                                    <!-- Lógica de selección de música (La que ya tenías) -->
-                                    <select id="artista" class="form-select bg-dark text-white border-secondary mb-2">
-                                        <option value="">-- Selecciona Artista --</option>
-                                        <option value="duki">Duki</option>
-                                        <option value="cro">C.R.O</option>
-                                    </select>
-                                    <select id="cancion" class="form-select bg-dark text-white border-secondary mb-3" disabled>
-                                        <option value="">-- Primero elige artista --</option>
-                                    </select>
-                                    <div id="info-cancion" class="text-gengar small fw-bold" style="display:none;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Juegos -->
-                    <div class="col-md-6">
-                        <div class="accordion-item porto-card p-0 border-0">
-                            <h2 class="accordion-header">
-                                <button class="accordion-button collapsed bg-transparent text-white fw-bold btn-tactil" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJuegos">
-                                    <i class="fas fa-gamepad text-gengar me-2"></i> Juegos Favoritos
-                                </button>
-                            </h2>
-                            <div id="collapseJuegos" class="accordion-collapse collapse" data-bs-parent="#accordionFavoritos">
-                                <div class="accordion-body">
-                                    <!-- Lógica de filtro de juegos (La que ya tenías) -->
-                                    <div class="d-flex gap-2 flex-wrap mb-3">
-                                        <button class="btn btn-sm btn-outline-light filter-btn active btn-tactil" data-cat="todos">Todos</button>
-                                        <button class="btn btn-sm btn-outline-light filter-btn btn-tactil" data-cat="mmorpg">MMORPG</button>
-                                        <button class="btn btn-sm btn-outline-light filter-btn btn-tactil" data-cat="moba">MOBA</button>
-                                    </div>
-                                    <div id="contenedor-juegos" class="d-flex flex-column gap-2"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            
-            <!-- Frase -->
-            <div class="text-center mt-5 pt-5 mb-5">
-                <h3 class="fst-italic text-white fw-light">"Siempre estuve en la mía, enfocado en lo mío. Si no sumas, no sirves."</h3>
-                <p class="text-gengar mt-3 fw-bold">// Alejandro Duki</p>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- FORMULARIO -->
-    <section class="light-section py-5" id="contacto">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center mb-5">
-                    <h2 class="display-5 fw-bold text-dark">Hablemos</h2>
-                </div>
-                <div class="col-lg-8">
-                    <form id="contact-form" class="p-4 rounded-4 shadow-sm bg-white" novalidate>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control custom-input-light" id="nombre" placeholder="Nombre Completo *">
-                                <small class="text-danger error-msg fw-bold" id="error-nombre"></small>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="email" class="form-control custom-input-light" id="email" placeholder="Correo Electrónico *">
-                                <small class="text-danger error-msg fw-bold" id="error-email"></small>
-                            </div>
-                            <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-gengar w-100 py-3 btn-tactil">ENVIAR MENSAJE</button>
-                            </div>
-                        </div>
-                        <div id="mensaje-exito" class="text-success text-center mt-3 fw-bold" style="display:none;">¡Mensaje enviado con éxito!</div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-dark text-center py-4 border-top border-secondary">
-        <div class="container">
-            <p class="text-light mb-3">Sígueme en mis redes:</p>
-            <div class="d-flex justify-content-center gap-3 mb-3">
-                <a href="https://facebook.com" target="_blank" class="social-circle-dark btn-tactil"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://instagram.com" target="_blank" class="social-circle-dark btn-tactil"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/59100000000" target="_blank" class="social-circle-dark btn-tactil"><i class="fab fa-whatsapp"></i></a>
-            </div>
-            <p class="text-muted small mb-0">&copy; 2026 - Denis Andrade - UPDS</p>
-        </div>
-    </footer>
+    <!-- BARRA INFERIOR (MÁS GRANDE Y CON ICONOS LLAMATIVOS) -->
+    <nav class="bottom-nav shadow-lg">
+        <a href="#" class="nav-item active" onclick="cambiarSeccion('inicio', this)">
+            <i class="fas fa-rocket"></i><span>Inicio</span>
+        </a>
+        <a href="#" class="nav-item" onclick="cambiarSeccion('sobre-mi', this)">
+            <i class="fas fa-globe"></i><span>Mi Mundo</span>
+        </a>
+        <a href="#" class="nav-item" onclick="cambiarSeccion('horario', this)">
+            <i class="fas fa-calendar-check"></i><span>Rutina</span>
+        </a>
+        <a href="#" class="nav-item" onclick="cambiarSeccion('favoritos', this)">
+            <i class="fas fa-fire"></i><span>Favoritos</span>
+        </a>
+        <a href="#" class="nav-item" onclick="cambiarSeccion('contacto', this)">
+            <i class="fas fa-paper-plane"></i><span>Contacto</span>
+        </a>
+    </nav>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
