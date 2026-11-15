@@ -1,10 +1,105 @@
 // ==========================================
-// 1. DOBLE SELECCIÓN DE MÚSICA (Tu código original)
+// 1. NAVEGACIÓN TIPO APP
+// ==========================================
+function cambiarSeccion(idSeccion, elementoBoton = null) {
+    document.querySelectorAll('.app-seccion').forEach(sec => sec.classList.remove('activa'));
+    document.getElementById('sec-' + idSeccion).classList.add('activa');
+    
+    if (elementoBoton) {
+        document.querySelectorAll('.bottom-nav .nav-item').forEach(nav => nav.classList.remove('active'));
+        elementoBoton.classList.add('active');
+    }
+
+    $('#menuDesplegable').removeClass('show');
+    $('#overlay').fadeOut(200);
+}
+
+// ==========================================
+// 2. LÓGICA DE MODALES (Sobre Mí)
+// ==========================================
+const dataModales = {
+    'futsal': {
+        titulo: '⚽ Mi Pasión: El Futsal',
+        contenido: 'Juego futsal a nivel semiprofesional. Actualmente entreno con mi club todas las tardes. He participado en campeonatos locales de La Paz, destacando en la posición de ala. Me encanta la disciplina, la velocidad del juego y el trabajo en equipo. Mi meta este año es ganar el torneo de la asociación.'
+    },
+    'gaming': {
+        titulo: '🎮 Mi Mundo Gamer',
+        contenido: 'Soy un jugador estratégico. Mis juegos favoritos son World of Warcraft (MMORPG) donde exploro mazmorras con amigos; League of Legends (MOBA) para partidas competitivas; y PES 2026, porque el fútbol siempre está presente en mi vida. Suelo jugar en PC durante las noches después de estudiar.'
+    },
+    'estudio': {
+        titulo: '💻 Mi Formación Académica',
+        contenido: 'Soy estudiante de Ingeniería de Sistemas en la UPDS (Sede La Paz). Me apasiona el Desarrollo Web y la creación de interfaces. Actualmente me encuentro aprendiendo HTML, CSS, JavaScript, jQuery y arquitecturas PWA. Mi objetivo es convertirme en un Desarrollador Full-Stack.'
+    },
+    'hardware': {
+        titulo: '🔧 Hardware y PCs',
+        contenido: 'Me encanta armar computadoras de cero. Sé cómo elegir componentes (procesador, tarjeta madre, RAM, GPU) según el presupuesto y el uso. Sé cómo elegir componentes (procesador, tarjeta madre, RAM, GPU) según el presupuesto y el uso. Me gusta optimizar sistemas operativos y hacer mantenimiento para que las PCs rindan al máximo.'
+    }
+};
+
+function abrirModal(tipo) {
+    const data = dataModales[tipo];
+    if (data) {
+        document.getElementById('modalTitulo').innerText = data.titulo;
+        // Sanitización para el modal usando textContent para evitar XSS
+        document.getElementById('modalContenido').innerText = data.contenido;
+        
+        // Abrir modal con Bootstrap
+        const modal = new bootstrap.Modal(document.getElementById('modalInfo'));
+        modal.show();
+    }
+}
+
+// ==========================================
+// 3. MENÚ HAMBURGUESA Y HIDRATACIÓN
+// ==========================================
+$(document).ready(function() {
+    $('#btnMenu').on('click', function() {
+        let estaAbierto = $('#menuDesplegable').hasClass('show');
+        if (!estaAbierto) {
+            $('#menuDesplegable').addClass('show');
+            $('#overlay').fadeIn(200);
+            
+            $('#textoHidratacion').text('Cargando eventos...');
+            setTimeout(() => {
+                $('#textoHidratacion').text('✅ Menú Hidratado').css('color', '#198754');
+            }, 500);
+        } else {
+            $('#menuDesplegable').removeClass('show');
+            $('#overlay').fadeOut(200);
+            $('#textoHidratacion').text('').css('color', 'inherit'); 
+        }
+    });
+
+    $('#overlay').on('click', function() {
+        $('#menuDesplegable').removeClass('show');
+        $(this).fadeOut(200);
+    });
+});
+
+// ==========================================
+// 4. MODO OSCURO CON MEMORIA
+// ==========================================
+$(document).ready(function() {
+    let modoGuardado = localStorage.getItem('modoOscuroActivo');
+    if (modoGuardado === 'true') {
+        document.body.classList.add('modo-oscuro');
+        $('#themeBtn').text('☀️');
+    }
+
+    $('#themeBtn').off('click').on('click', function() {
+        document.body.classList.toggle('modo-oscuro');
+        let esOscuro = document.body.classList.contains('modo-oscuro');
+        $(this).text(esOscuro ? '☀️' : '🌙');
+        localStorage.setItem('modoOscuroActivo', esOscuro);
+    });
+});
+
+// ==========================================
+// 5. LÓGICA DE MÚSICA Y JUEGOS
 // ==========================================
 const selectArtista = document.getElementById('artista');
 const selectCancion = document.getElementById('cancion');
 const infoCancion = document.getElementById('info-cancion');
-
 const musicaDB = {
     duki: [ { titulo: "Goteo", anio: 2019 }, { titulo: "Rockstar", anio: 2018 } ],
     cro: [ { titulo: "Ella", anio: 2021 }, { titulo: "Trap Life", anio: 2019 } ]
@@ -12,75 +107,47 @@ const musicaDB = {
 
 selectArtista.addEventListener('change', (e) => {
     const artista = e.target.value;
-    selectCancion.innerHTML = '<option value="">-- Elige una canción --</option>';
-    
+    selectCancion.innerHTML = '<option value="">-- Canción --</option>';
     if (artista) {
         selectCancion.disabled = false;
         musicaDB[artista].forEach(cancion => {
             const option = document.createElement('option');
             option.value = cancion.titulo;
-            option.textContent = cancion.titulo; // Seguro (TextContent)
+            option.textContent = cancion.titulo; 
             option.dataset.anio = cancion.anio;
             selectCancion.appendChild(option);
         });
-        infoCancion.style.display = 'none';
-    } else {
-        selectCancion.disabled = true;
-        infoCancion.style.display = 'none';
-    }
+    } else { selectCancion.disabled = true; infoCancion.style.display = 'none'; }
 });
 
 selectCancion.addEventListener('change', (e) => {
     const titulo = e.target.value;
     if (titulo) {
         const anio = e.target.options[e.target.selectedIndex].dataset.anio;
-        const artistaNombre = selectArtista.options[selectArtista.selectedIndex].text;
-        
-        // RÚBRICA: Sanitización con .text() en lugar de innerHTML
-        infoCancion.textContent = `▶ ${titulo} - ${artistaNombre} (${anio})`;
+        infoCancion.textContent = `▶ ${titulo} (${anio})`;
         infoCancion.style.display = 'block';
-    } else {
-        infoCancion.style.display = 'none';
-    }
+    } else { infoCancion.style.display = 'none'; }
 });
 
-
-// ==========================================
-// 2. FILTRO DE JUEGOS (Tu código original)
-// ==========================================
 const juegosData = [
-    { nombre: "World of Warcraft", cat: "mmorpg", desc: "MMORPG de fantasía épica" },
-    { nombre: "League of Legends", cat: "moba", desc: "MOBA 5v5 competitivo" },
-    { nombre: "PES 2026", cat: "deportes", desc: "Simulador de fútbol" }
+    { nombre: "World of Warcraft", cat: "mmorpg" }, 
+    { nombre: "League of Legends", cat: "moba" }, 
+    { nombre: "PES 2026", cat: "deportes" }
 ];
-
 const contenedorJuegos = document.getElementById('contenedor-juegos');
 const botonesFiltro = document.querySelectorAll('.filter-btn');
 
 function renderizarJuegos(filtro) {
     contenedorJuegos.innerHTML = ''; 
     const filtrados = filtro === 'todos' ? juegosData : juegosData.filter(j => j.cat === filtro);
-    
     filtrados.forEach(juego => {
         const div = document.createElement('div');
-        div.className = 'p-2 border-start border-2';
+        div.className = 'p-2 rounded bg-light mb-2 border-start border-3';
         div.style.borderColor = 'var(--gengar-purple)';
-        
-        // Se construye de forma segura
-        const h6 = document.createElement('h6');
-        h6.className = 'text-white mb-0 fw-bold';
-        h6.textContent = juego.nombre;
-        
-        const small = document.createElement('small');
-        small.className = 'text-light-muted';
-        small.textContent = juego.desc;
-
-        div.appendChild(h6);
-        div.appendChild(small);
+        div.innerHTML = `<h6 class="mb-0 fw-bold text-dark" style="font-size:0.9rem;">${juego.nombre}</h6>`;
         contenedorJuegos.appendChild(div);
     });
 }
-
 botonesFiltro.forEach(btn => {
     btn.addEventListener('click', (e) => {
         botonesFiltro.forEach(b => b.classList.remove('active'));
@@ -90,68 +157,39 @@ botonesFiltro.forEach(btn => {
 });
 renderizarJuegos('todos');
 
-
 // ==========================================
-// 3. VALIDACIÓN DEL FORMULARIO (Tu código original)
+// 6. VALIDACIÓN FORMULARIO Y RED
 // ==========================================
 const form = document.getElementById('contact-form');
-const mensajeExito = document.getElementById('mensaje-exito');
-
-function mostrarError(id, msj) {
-    document.getElementById(`error-${id}`).textContent = msj;
-    document.getElementById(`error-${id}`).style.display = 'block';
-    document.getElementById(id).classList.add('input-error');
-}
-function limpiarError(id) {
-    document.getElementById(`error-${id}`).style.display = 'none';
-    document.getElementById(id).classList.remove('input-error');
-}
-
 form.addEventListener('submit', (e) => {
     e.preventDefault(); 
     let valido = true;
-    const nombre = document.getElementById('nombre').value.trim();
-    if (nombre.length < 3) { mostrarError('nombre', 'Mínimo 3 letras.'); valido = false; } else { limpiarError('nombre'); }
-    const email = document.getElementById('email').value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mostrarError('email', 'Correo no válido.'); valido = false; } else { limpiarError('email'); }
+    if (document.getElementById('nombre').value.trim().length < 3) { 
+        document.getElementById('error-nombre').textContent="Mínimo 3 letras"; 
+        document.getElementById('error-nombre').style.display='block'; 
+        valido=false; 
+    } else { document.getElementById('error-nombre').style.display='none'; }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value)) { 
+        document.getElementById('error-email').textContent="Correo inválido"; 
+        document.getElementById('error-email').style.display='block'; 
+        valido=false; 
+    } else { document.getElementById('error-email').style.display='none'; }
 
     if (valido) {
-        mensajeExito.style.display = 'block';
+        document.getElementById('mensaje-exito').style.display = 'block';
         form.reset();
-        setTimeout(() => { mensajeExito.style.display = 'none'; }, 4000);
+        setTimeout(() => { document.getElementById('mensaje-exito').style.display = 'none'; }, 4000);
     }
 });
 
+function actualizarEstadoRed() {
+    if (navigator.onLine) { $('#estadoRed').text('En Línea').css({'background':'#198754'}); } 
+    else { $('#estadoRed').text('Offline').css({'background':'#ffc107', 'color':'black'}); }
+}
+$(window).on('online offline', actualizarEstadoRed);
+actualizarEstadoRed();
 
-// ==========================================
-// 4. AGREGADOS DE LOS PDFs (Modo Oscuro, PWA, Red y Event Bubbling)
-// ==========================================
-$(document).ready(function() {
-
-    // A. MODO OSCURO / HIDRATACIÓN (Del PDF de Hidratación)
-    $('#themeBtn').off('click').on('click', function() {
-        document.body.classList.toggle('modo-oscuro');
-        let esOscuro = document.body.classList.contains('modo-oscuro');
-        $(this).text(esOscuro ? '☀️ Modo' : '🌙 Modo');
-    });
-
-    // B. DETECTOR DE RED (Del PDF de Offline-First)
-    function actualizarEstadoRed() {
-        if (navigator.onLine) {
-            $('#estadoRed').text('En Línea').css({'background':'#198754', 'color':'white'});
-        } else {
-            $('#estadoRed').text('Modo Offline').css({'background':'#ffc107', 'color':'black'});
-        }
-    }
-    $(window).on('online offline', actualizarEstadoRed);
-    actualizarEstadoRed();
-
-    // C. REGISTRO DEL SERVICE WORKER
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker Registrado:', reg.scope))
-                .catch(err => console.error('Fallo SW:', err));
-        });
-    }
-});
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(err => console.log(err)));
+}
